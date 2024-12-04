@@ -1,5 +1,7 @@
 #!bin/bash 
 
+input_file="$1"
+
 docker cp spark.jar spark-master:/spark.jar
 
 docker exec spark-master spark-submit \
@@ -7,8 +9,8 @@ docker exec spark-master spark-submit \
   --class com.example.WordCount \
   --conf "spark.hadoop.fs.defaultFS=hdfs://namenode:9000" \
   /spark.jar \
-  hdfs://namenode:9000/user/hadoop/input \
-  hdfs://namenode:9000/user/hadoop/spark-output >> log.txt 2>&1
+  hdfs://namenode:9000/user/hadoop/input/"$input_file" \
+  hdfs://namenode:9000/user/hadoop/spark-output/"$input_file" >> log.txt 2>&1
 
 FINISHED_TIME=$(grep -o 'Job completed in : [0-9]*\.[0-9]* ms' log.txt)
 

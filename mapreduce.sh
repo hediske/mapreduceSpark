@@ -1,7 +1,9 @@
 #!bin/bash 
 
+input_file="$1"
+
 docker cp mapreduce.jar namenode:/mapreduce.jar
-docker exec namenode hadoop jar /mapreduce.jar com.mapreduce.WordCount /user/hadoop/input /user/hadoop/output > log.txt 2>&1
+docker exec namenode hadoop jar /mapreduce.jar com.mapreduce.WordCount /user/hadoop/input/"$input_file" /user/hadoop/output/"$input_file" > log.txt 2>&1
 
 
 start_time=$(head -n 1 log.txt | awk '{print $1, $2}')
